@@ -1,12 +1,9 @@
 import { User } from 'src/app/_models/user';
-import { AccountService } from './../../_services/account.service';
 import { UserParams } from './../../_models/userParams';
 import { Pagination } from './../../_models/pagination';
 import { MembersService } from './../../_services/members.service';
 import { Component, OnInit } from '@angular/core';
 import { Member } from 'src/app/_models/member';
-import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-member-list',
@@ -43,6 +40,8 @@ export class MemberListComponent implements OnInit {
   }
 
   pageChanged(event: any){
+    console.log("ovo je event", event);
+    console.log("ovo je event value", event.value);
     this.userParams.pageNumber = event.page;
     this.memberService.setUserParams(this.userParams);
     this.loadMembers();
