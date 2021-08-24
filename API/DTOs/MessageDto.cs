@@ -15,7 +15,7 @@ namespace API.DTOs
         public string RecepientUsername { get; set; }
         public string RecepientPhotoUrl { get; set; }
         public string Content { get; set; }
-        public DateTime? Dateread { get; set; }
+        public DateTime? DateRead { get; set; }
         public DateTime MessageSent { get; set; } = DateTime.Now;
     }
 }

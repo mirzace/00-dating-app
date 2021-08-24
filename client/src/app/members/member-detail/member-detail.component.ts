@@ -80,7 +80,7 @@ export class MemberDetailComponent implements OnInit {
   }
 
   loadMessages() {
-    this.messageService.getMessageThread(this.member.username).subscribe( res => {
+    this.messageService.getMessageThread(this.member.userName).subscribe( res => {
       this.messages = res;
     })
   }

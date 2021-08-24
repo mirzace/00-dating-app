@@ -48,9 +48,9 @@ namespace API.Data
 
             query = messageParams.Container switch
             {
-                "Inbox" => query.Where(u => u.Recepient.Username == messageParams.Username && u.RecepientDeleted == false),
-                "Outbox" => query.Where(u => u.Sender.Username == messageParams.Username && u.SenderDeleted == false),
-                _ => query.Where(u => u.Recepient.Username == messageParams.Username && u.RecepientDeleted == false && u.Dateread == null)
+                "Inbox" => query.Where(u => u.Recepient.UserName == messageParams.Username && u.RecepientDeleted == false),
+                "Outbox" => query.Where(u => u.Sender.UserName == messageParams.Username && u.SenderDeleted == false),
+                _ => query.Where(u => u.Recepient.UserName == messageParams.Username && u.RecepientDeleted == false && u.DateRead == null)
             };
 
             var messages = query.ProjectTo<MessageDto>(_mapper.ConfigurationProvider);
@@ -65,22 +65,22 @@ namespace API.Data
                 .Include(u => u.Recepient).ThenInclude(p => p.Photos)
                 .Where(m => m.RecepientUsername == currentUsername
                     && m.RecepientDeleted == false
-                    && m.Sender.Username == recipientUsername
-                    || m.Recepient.Username == recipientUsername
-                    && m.Sender.Username == currentUsername
+                    && m.Sender.UserName == recipientUsername
+                    || m.Recepient.UserName == recipientUsername
+                    && m.Sender.UserName == currentUsername
                     && m.SenderDeleted == false
                 )
                 .OrderBy(m=> m.MessageSent)
                 .ToListAsync();
 
-            var unreadMessages = messages.Where(m => m.Dateread == null
-                && m.Recepient.Username == currentUsername).ToList();
+            var unreadMessages = messages.Where(m => m.DateRead == null
+                && m.Recepient.UserName == currentUsername).ToList();
 
             if(unreadMessages.Any())
             {
                 foreach (var message in unreadMessages)
                 {
-                    message.Dateread = DateTime.Now;
+                    message.DateRead = DateTime.Now;
                 }
 
                 await _context.SaveChangesAsync();
